@@ -35,8 +35,8 @@ router.post('/api/v1/generate-changing-life-quote', async (req, res) =>  {
  * Endpoint for getting the quote with the given id.
  * @param {string} id
  */
-router.post('/api/v1/get-quote-by-id', (req, res) => {
-  let id = req.body.id
+router.get('/api/v1/get-quote-by-id', (req, res) => {
+  let id = req.query.id
   global.db.quote.findOne({_id: id}).then((doc, err)=>{
     if(err) throw err;
     if(doc!==null){
@@ -45,6 +45,10 @@ router.post('/api/v1/get-quote-by-id', (req, res) => {
       res.json(result)
     } else {
       res.json({'error': 'The quote wiht that id does not exist.'})
+    }
+  }).catch((err)=>{
+    if(err.name=='CastError'){
+      res.json({'error': 'Invalid id format'})
     }
   })
 })
@@ -58,6 +62,10 @@ router.delete('/api/v1/delete-quote-by-id', (req, res) => {
   global.db.quote.deleteOne({_id: id}, (err)=>{
     if(err) throw err;
     res.json({status: 'deleted'})
+  }).catch((err)=>{
+    if(err.name=='CastError'){
+      res.json({'error': 'Invalid id format'})
+    }
   })
 })
 
@@ -126,7 +134,7 @@ const getQuote = async () => {
 const getRelatedPic = async (category) => {
   let key = process.env.picKey
   try {
-    return await axios.get('https://pixabay.com/api/?key='+key+'&q='+category+'&page=1&per_page=200')
+    return await axios.get('https://pixabay.com/api/?key='+key+'&q='+category+'&page=1&per_page=200&min_width=800&min_height=600')
   } catch (error) {
     console.error(error)
   }

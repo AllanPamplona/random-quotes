@@ -14,10 +14,9 @@ a {
   position: relative;
   text-align: center;
   color: white;
-  font-size: 30px;
+  font-size: 2vw;
   font-family: 'Montserrat', sans-serif;
 }
-
 /* Bottom left text */
 .bottom-left {
   position: absolute;
