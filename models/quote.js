@@ -9,9 +9,9 @@ module.exports = function (mongoose) {
   var newsSchema = new Schema({
     quote: quote,
     quoteHash: {type: String}
-  }, { collection: "news" })
+  })
 
   // Creating the collection model with name and schema
-  return mongoose.model("news", newsSchema)
+  return mongoose.model("quote", newsSchema)
 }
 
